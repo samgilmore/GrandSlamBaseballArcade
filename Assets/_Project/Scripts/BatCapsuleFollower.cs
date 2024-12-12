@@ -14,6 +14,8 @@ public class BatCapsuleFollower : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        //_rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        _rigidbody.freezeRotation = true;
     }
 
     private void FixedUpdate()
