@@ -9,6 +9,7 @@ public class BallPitch : MonoBehaviour
     public int difficulty = 2;          // 0 = Easy, 1 = Medium, 2 = Hard
 
     private bool isPitching;            // Whether the ball is actively pitching
+    private bool hasCollided;           // Flag to check if the ball has collided
     private Rigidbody rb;
 
     private enum PitchType { Fastball, LeftCurveball, RightCurveball, UpCurveball, WavePitch }
@@ -23,6 +24,7 @@ public class BallPitch : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false; // Disable gravity initially
+        hasCollided = false; // Reset collision flag
         StartPitch(); // Start pitching
     }
 
@@ -75,9 +77,12 @@ public class BallPitch : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        // Ensure the ball only reacts to the first collision with "Bat"
+        if (hasCollided) return;
+
         if (collision.gameObject.CompareTag("Bat"))
         {
-            Debug.Log("HITTTT");
+            hasCollided = true; // Set collision flag to true
             StopPitching(); // Stop the pitching logic
             rb.useGravity = true; // Enable gravity for physics-based behavior
             rb.velocity = collision.relativeVelocity; // Add force from the bat
