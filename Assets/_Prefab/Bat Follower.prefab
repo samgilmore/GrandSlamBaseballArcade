@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 668837531067123966}
   m_Layer: 6
   m_Name: Bat Follower
-  m_TagString: Untagged
+  m_TagString: Bat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,7 +147,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4544552152545084408}
-  m_Material: {fileID: 13400000, guid: 2ef1b048ed03d4947aa67a6ac50f03a4, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

@@ -147,6 +147,7 @@ public class BallPitch : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bat")) {
             rb.useGravity = true;
+            Destroy(this);
         }
     }
 }

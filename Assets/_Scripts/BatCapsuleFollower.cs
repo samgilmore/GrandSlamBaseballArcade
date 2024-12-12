@@ -16,31 +16,31 @@ public class BatCapsuleFollower : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    //private void FixedUpdate()
-    //{
-    //    Vector3 destination = _batFollower.transform.position;
-    //    _rigidbody.transform.rotation = transform.rotation;
-
-    //    _velocity = (destination - _rigidbody.transform.position) * _sensitivity;
-
-    //    _rigidbody.velocity = _velocity;
-    //    transform.rotation = _batFollower.transform.rotation;
-    //}
-
     private void FixedUpdate()
     {
-        if (_batFollower == null) return; // Safety check
-
         Vector3 destination = _batFollower.transform.position;
-        Quaternion targetRotation = _batFollower.transform.rotation;
+        _rigidbody.transform.rotation = transform.rotation;
 
-        // Smoothly move the Rigidbody to the target position
-        Vector3 newPosition = Vector3.MoveTowards(_rigidbody.position, destination, _sensitivity * Time.fixedDeltaTime);
-        _rigidbody.MovePosition(newPosition);
+        _velocity = (destination - _rigidbody.transform.position) * _sensitivity;
 
-        // Smoothly rotate the Rigidbody to the target rotation
-        _rigidbody.MoveRotation(targetRotation);
+        _rigidbody.velocity = _velocity;
+        transform.rotation = _batFollower.transform.rotation;
     }
+
+    //private void FixedUpdate()
+    //{
+    //    if (_batFollower == null) return; // Safety check
+
+    //    Vector3 destination = _batFollower.transform.position;
+    //    Quaternion targetRotation = _batFollower.transform.rotation;
+
+    //    // Smoothly move the Rigidbody to the target position
+    //    Vector3 newPosition = Vector3.MoveTowards(_rigidbody.position, destination, _sensitivity * Time.fixedDeltaTime);
+    //    _rigidbody.MovePosition(newPosition);
+
+    //    // Smoothly rotate the Rigidbody to the target rotation
+    //    _rigidbody.MoveRotation(targetRotation);
+    //}
 
 
     public void SetFollowTarget(BatCapsule batFollower)
