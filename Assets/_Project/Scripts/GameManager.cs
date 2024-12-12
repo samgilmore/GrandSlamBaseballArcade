@@ -82,14 +82,15 @@ public class GameManager : MonoBehaviour
         hardButton.onClick.AddListener(() => SetDifficulty("hard"));
     }
 
-    public void StartGame()
+    public void PlayerEnteredTeleportArea()
     {
-        if (!IsPlayerInTeleportableArea())
-        {
-            Debug.LogError("Player is not in a valid teleportable area to start the game.");
-            return;
-        }
+        if (isGameActive) return;
 
+        StartGame();
+    }
+
+    private void StartGame()
+    {
         currentScore = 0;
         homeRuns = 0;
         consecutiveHomeRuns = 0;
@@ -160,19 +161,6 @@ public class GameManager : MonoBehaviour
         if (selectedDifficultyButton == easyButton) return 0;
         if (selectedDifficultyButton == mediumButton) return 1;
         return 2;
-    }
-
-    private bool IsPlayerInTeleportableArea()
-    {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        if (teleportableAreaLefty.GetComponent<Collider>().bounds.Contains(player.transform.position) ||
-            teleportableAreaRighty.GetComponent<Collider>().bounds.Contains(player.transform.position))
-        {
-            return true;
-        }
-
-        return false;
     }
 
     public void SetDifficulty(string difficulty)
