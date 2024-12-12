@@ -72,8 +72,8 @@ public class GameManager : MonoBehaviour
         startMenu.SetActive(true);
         resetMenu.SetActive(false);
 
-        dayButton.onClick.AddListener(() => SetDayNight(true));
-        nightButton.onClick.AddListener(() => SetDayNight(false));
+        dayButton.onClick.AddListener(() => SelectDayNightButton(dayButton));
+        nightButton.onClick.AddListener(() => SelectDayNightButton(nightButton));
         easyButton.onClick.AddListener(() => SetDifficulty("easy"));
         mediumButton.onClick.AddListener(() => SetDifficulty("medium"));
         hardButton.onClick.AddListener(() => SetDifficulty("hard"));
@@ -147,10 +147,19 @@ public class GameManager : MonoBehaviour
         pitchesRemainingText.text = "Pitches Remaining: " + pitchesRemaining;
     }
 
-    public void SetDayNight(bool isDay)
+    public void SelectDayNightButton(Button button)
     {
-        RenderSettings.skybox = isDay ? daySkybox : nightSkybox;
-        selectedDayButton = isDay ? dayButton : nightButton;
+        selectedDayButton = button;
+
+        if (button == dayButton)
+        {
+            RenderSettings.skybox = daySkybox;
+        }
+        else if (button == nightButton)
+        {
+            RenderSettings.skybox = nightSkybox;
+        }
+
         UpdateButtonColors();
     }
 
