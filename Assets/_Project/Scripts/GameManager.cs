@@ -112,8 +112,8 @@ public class GameManager : MonoBehaviour
         ballManager.StopPitching();
 
         // Show final score and home runs
-        finalScoreText.text = "Final Score: " + currentScore;
-        finalHomeRunsText.text = "Home Runs: " + homeRuns;
+        finalScoreText.text = currentScore.ToString();
+        finalHomeRunsText.text = homeRuns.ToString();
 
         resetMenu.SetActive(true);
     }
@@ -152,8 +152,8 @@ public class GameManager : MonoBehaviour
 
     private void UpdateScoreboard()
     {
-        homeRunsText.text = "Home Runs: " + homeRuns;
-        pitchesRemainingText.text = "Pitches Remaining: " + pitchesRemaining;
+        homeRunsText.text = homeRuns.ToString();
+        pitchesRemainingText.text = pitchesRemaining.ToString();
     }
 
     private int GetDifficultyLevel()
