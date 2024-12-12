@@ -4,7 +4,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance; // Singleton instance
+    public static GameManager Instance;
 
     [Header("Game Settings")]
     public int pitchesPerGame = 10;
@@ -36,6 +36,9 @@ public class GameManager : MonoBehaviour
     [Header("Meta Teleport")]
     public GameObject teleportableAreaLefty;
     public GameObject teleportableAreaRighty;
+
+    [Header("Managers")]
+    public BallManager ballManager;
 
     private Button selectedDayButton;
     private Button selectedDifficultyButton;
@@ -81,7 +84,6 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        // Ensure the player is in a valid teleportable area
         if (!IsPlayerInTeleportableArea())
         {
             Debug.LogError("Player is not in a valid teleportable area to start the game.");
@@ -96,11 +98,17 @@ public class GameManager : MonoBehaviour
 
         UpdateScoreboard();
         startMenu.SetActive(false);
+
+        // Start the pitching process in BallManager
+        ballManager.StartPitching(GetDifficultyLevel(), pitchesPerGame);
     }
 
     public void EndGame()
     {
         isGameActive = false;
+
+        // Stop the pitching process in BallManager
+        ballManager.StopPitching();
 
         // Show final score and home runs
         finalScoreText.text = "Final Score: " + currentScore;
@@ -147,6 +155,48 @@ public class GameManager : MonoBehaviour
         pitchesRemainingText.text = "Pitches Remaining: " + pitchesRemaining;
     }
 
+    private int GetDifficultyLevel()
+    {
+        if (selectedDifficultyButton == easyButton) return 0;
+        if (selectedDifficultyButton == mediumButton) return 1;
+        return 2;
+    }
+
+    private bool IsPlayerInTeleportableArea()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (teleportableAreaLefty.GetComponent<Collider>().bounds.Contains(player.transform.position) ||
+            teleportableAreaRighty.GetComponent<Collider>().bounds.Contains(player.transform.position))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void SetDifficulty(string difficulty)
+    {
+        Debug.Log("Setting difficulty: " + difficulty);
+
+        switch (difficulty.ToLower())
+        {
+            case "easy":
+                pitchesPerGame = 3;
+                selectedDifficultyButton = easyButton;
+                break;
+            case "medium":
+                pitchesPerGame = 5;
+                selectedDifficultyButton = mediumButton;
+                break;
+            case "hard":
+                pitchesPerGame = 10;
+                selectedDifficultyButton = hardButton;
+                break;
+        }
+        UpdateButtonColors();
+    }
+
     public void SelectDayNightButton(Button button)
     {
         selectedDayButton = button;
@@ -160,26 +210,6 @@ public class GameManager : MonoBehaviour
             RenderSettings.skybox = nightSkybox;
         }
 
-        UpdateButtonColors();
-    }
-
-    public void SetDifficulty(string difficulty)
-    {
-        switch (difficulty.ToLower())
-        {
-            case "easy":
-                pitchesPerGame = 15;
-                selectedDifficultyButton = easyButton;
-                break;
-            case "medium":
-                pitchesPerGame = 10;
-                selectedDifficultyButton = mediumButton;
-                break;
-            case "hard":
-                pitchesPerGame = 7;
-                selectedDifficultyButton = hardButton;
-                break;
-        }
         UpdateButtonColors();
     }
 
@@ -201,18 +231,5 @@ public class GameManager : MonoBehaviour
         easyButton.GetComponent<Image>().color = (selectedDifficultyButton == easyButton) ? easyColor : Color.white;
         mediumButton.GetComponent<Image>().color = (selectedDifficultyButton == mediumButton) ? mediumColor : Color.white;
         hardButton.GetComponent<Image>().color = (selectedDifficultyButton == hardButton) ? hardColor : Color.white;
-    }
-
-    private bool IsPlayerInTeleportableArea()
-    {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        if (teleportableAreaLefty.GetComponent<Collider>().bounds.Contains(player.transform.position) ||
-            teleportableAreaRighty.GetComponent<Collider>().bounds.Contains(player.transform.position))
-        {
-            return true;
-        }
-
-        return false;
     }
 }

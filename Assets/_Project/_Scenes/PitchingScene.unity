@@ -527,7 +527,6 @@ MonoBehaviour:
   pitchPosition: {fileID: 1736475252}
   pitchSpeed: 5
   curveIntensity: 0.75
-  difficulty: 0
   pitchInterval: 4
 --- !u!4 &9104540
 Transform:
@@ -41950,7 +41949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 491db747171f14aa5aa34440e6ff07ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pitchesPerGame: 10
+  pitchesPerGame: 3
   homeRunMultiplierThreshold: 3
   homeRunsText: {fileID: 498340736}
   pitchesRemainingText: {fileID: 1373748354}
@@ -41967,6 +41966,7 @@ MonoBehaviour:
   hardButton: {fileID: 462106135}
   teleportableAreaLefty: {fileID: 1004399249}
   teleportableAreaRighty: {fileID: 0}
+  ballManager: {fileID: 9104539}
 --- !u!1 &1643657053
 GameObject:
   m_ObjectHideFlags: 0
@@ -54595,6 +54595,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 2113538730}
+--- !u!1 &2116321464 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3642352042163518208, guid: f54012181eacade4ea242c65f804720f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2121115230}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &2116321466
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116321464}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2116338920
 GameObject:
   m_ObjectHideFlags: 0
@@ -54758,6 +54787,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OVRCameraRigInteraction
       objectReference: {fileID: 0}
+    - target: {fileID: 3642352042163518208, guid: f54012181eacade4ea242c65f804720f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -54778,6 +54812,10 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 936412930}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3642352042163518208, guid: f54012181eacade4ea242c65f804720f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2116321466}
     - targetCorrespondingSourceObject: {fileID: 2483171112401766338, guid: f54012181eacade4ea242c65f804720f,
         type: 3}
       insertIndex: 1
