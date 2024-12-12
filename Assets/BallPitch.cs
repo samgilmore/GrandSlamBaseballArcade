@@ -21,12 +21,15 @@ public class BallPitch : MonoBehaviour
     private enum PitchType { Fastball, LeftCurveball, RightCurveball, UpCurveball, WavePitch }
     private PitchType currentPitchType; // Current type of pitch (Fastball or Curveball)
 
+    private Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
         // Calculate the total distance between the pitching and hitting positions
         pitchLength = Vector3.Distance(pitchPosition.position, hittingZone.position);
         StartCoroutine(PitchSequence()); // Start the first pitch sequence
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -137,6 +140,13 @@ public class BallPitch : MonoBehaviour
 
             // Wait for the interval before starting the next pitch
             yield return new WaitForSeconds(pitchInterval);
+        }
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Bat")) {
+            rb.useGravity = true;
         }
     }
 }
