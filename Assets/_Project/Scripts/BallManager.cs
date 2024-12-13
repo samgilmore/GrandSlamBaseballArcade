@@ -29,7 +29,7 @@ public class BallManager : MonoBehaviour
     {
         while (GameManager.Instance.pitchesRemaining > 0)
         {
-            if (!isPitching) yield break;
+            if (!isPitching || !GameManager.Instance.isGameActive) yield break;
 
             // Spawn a new ball
             GameObject ballInstance = Instantiate(ballPrefab, pitchPosition.position, Quaternion.identity);
@@ -38,8 +38,16 @@ public class BallManager : MonoBehaviour
             BallPitch ballScript = ballInstance.GetComponent<BallPitch>();
             ballScript.Initialize(pitchPosition, pitchSpeed, curveIntensity, difficulty);
 
-            // Wait before pitching the next ball
-            yield return new WaitForSeconds(pitchInterval);
+            // Attach a callback to the ball to notify when it's handled
+            Ball ball = ballInstance.GetComponent<Ball>();
+            bool ballHandled = false;
+            ball.onBallHandled = () => ballHandled = true;
+
+            // Wait until the ball is handled
+            yield return new WaitUntil(() => ballHandled);
+
+            // Add a short delay (1-2 seconds) before pitching the next ball
+            yield return new WaitForSeconds(1.5f);
         }
 
         StopPitching();

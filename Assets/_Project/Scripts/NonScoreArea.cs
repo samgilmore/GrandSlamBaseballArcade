@@ -8,9 +8,15 @@ public class NonScoreArea : MonoBehaviour
     {
         if (other.CompareTag("Ball"))
         {
-            Debug.Log("Foul/Groundball");
-            GameManager.Instance.HandlePitchOutcome(isHomeRun: false);
-            Destroy(other.gameObject);
+            Ball ballScript = other.GetComponent<Ball>();
+            if (ballScript != null && !ballScript.HasScored)
+            {
+                ballScript.HasScored = true;
+                Debug.Log("groundball/foul");
+                GameManager.Instance.HandlePitchOutcome(isHomeRun: false);
+                Destroy(other.gameObject, 5);
+            }
         }
     }
 }
+

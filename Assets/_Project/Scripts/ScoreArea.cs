@@ -8,9 +8,14 @@ public class ScoreArea : MonoBehaviour
     {
         if (other.CompareTag("Ball"))
         {
-            Debug.Log("Homerun");
-            GameManager.Instance.HandlePitchOutcome(isHomeRun: true);
-            Destroy(other.gameObject);
+            Ball ballScript = other.GetComponent<Ball>();
+            if (ballScript != null && !ballScript.HasScored)
+            {
+                ballScript.HasScored = true;
+                Debug.Log("Homerun");
+                GameManager.Instance.HandlePitchOutcome(isHomeRun: true);
+                Destroy(other.gameObject, 5);
+            }
         }
     }
 }
