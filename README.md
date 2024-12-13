@@ -1,4 +1,6 @@
-# ⚾️ Grand Slam: Baseball Arcade ⚾️
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/ff804b66-3a6e-4004-b0c9-8c964736599a" alt="Screenshot" width="800"/>
+</div>
 
 **Grand Slam: Baseball Arcade** is an immersive VR arcade game where players step into the batter’s box to face off against a quirky robot pitcher in a futuristic stadium. Hit home runs, build streaks, and watch as glowing fireballs light up the game. With intuitive mechanics, vibrant visuals, and a sassy robot opponent, the game delivers an engaging, competitive experience for all audiences.
 
