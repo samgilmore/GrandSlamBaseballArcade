@@ -11,12 +11,12 @@ public class BallManager : MonoBehaviour
 
     private bool isPitching = false;
 
-    public void StartPitching(int difficulty, int pitchesPerGame)
+    public void StartPitching(int difficulty)
     {
         if (isPitching) return;
 
         isPitching = true;
-        StartCoroutine(PitchSequence(difficulty, pitchesPerGame));
+        StartCoroutine(PitchSequence(difficulty));
     }
 
     public void StopPitching()
@@ -25,11 +25,11 @@ public class BallManager : MonoBehaviour
         StopAllCoroutines();
     }
 
-    private IEnumerator PitchSequence(int difficulty, int pitchesToThrow)
+    private IEnumerator PitchSequence(int difficulty)
     {
-        for (int i = 0; i < pitchesToThrow; i++)
+        while (GameManager.Instance.pitchesRemaining > 0)
         {
-            if (!isPitching) yield break;
+            if (!isPitching || !GameManager.Instance.isGameActive) yield break;
 
             // Spawn a new ball
             GameObject ballInstance = Instantiate(ballPrefab, pitchPosition.position, Quaternion.identity);
@@ -38,14 +38,18 @@ public class BallManager : MonoBehaviour
             BallPitch ballScript = ballInstance.GetComponent<BallPitch>();
             ballScript.Initialize(pitchPosition, pitchSpeed, curveIntensity, difficulty);
 
-            // Notify GameManager about the pitch
-            GameManager.Instance.HandlePitchOutcome(false);
+            // Attach a callback to the ball to notify when it's handled
+            Ball ball = ballInstance.GetComponent<Ball>();
+            bool ballHandled = false;
+            ball.onBallHandled = () => ballHandled = true;
 
-            // Wait before pitching the next ball
-            yield return new WaitForSeconds(pitchInterval);
+            // Wait until the ball is handled
+            yield return new WaitUntil(() => ballHandled);
+
+            // Add a short delay (1-2 seconds) before pitching the next ball
+            yield return new WaitForSeconds(1.5f);
         }
 
-        // Notify GameManager that pitching is done
-        GameManager.Instance.EndGame();
+        StopPitching();
     }
 }

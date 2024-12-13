@@ -46,8 +46,9 @@ public class GameManager : MonoBehaviour
     private int currentScore = 0;
     private int homeRuns = 0;
     private int consecutiveHomeRuns = 0;
-    private int pitchesRemaining;
-    private bool isGameActive = false;
+    public int pitchesRemaining;
+    public bool isGameActive = false;
+    private bool hasTeleported = false;
 
     private void Awake()
     {
@@ -84,8 +85,10 @@ public class GameManager : MonoBehaviour
 
     public void PlayerEnteredTeleportArea()
     {
-        if (isGameActive) return;
+        if (isGameActive && hasTeleported) return;
 
+        Debug.Log("Starting game agian");
+        hasTeleported = true;
         StartGame();
     }
 
@@ -101,7 +104,7 @@ public class GameManager : MonoBehaviour
         startMenu.SetActive(false);
 
         // Start the pitching process in BallManager
-        ballManager.StartPitching(GetDifficultyLevel(), pitchesPerGame);
+        ballManager.StartPitching(GetDifficultyLevel());
     }
 
     public void EndGame()
@@ -118,15 +121,9 @@ public class GameManager : MonoBehaviour
         resetMenu.SetActive(true);
     }
 
-    public void RestartGame()
-    {
-        StartGame();
-        resetMenu.SetActive(false);
-    }
-
     public void HandlePitchOutcome(bool isHomeRun)
     {
-        if (!isGameActive) return;
+        if (!isGameActive || pitchesRemaining <= 0) return;
 
         pitchesRemaining--;
 
