@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8096163326265724766}
   - component: {fileID: 2886309602245164724}
   - component: {fileID: 6026887536508259485}
-  - component: {fileID: 270348902638197943}
   - component: {fileID: 5635906478573049707}
   - component: {fileID: 7991554394291481479}
   m_Layer: 0
@@ -137,22 +136,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &270348902638197943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472015287620615558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a01bd10d4e7fe6949a3fa832d11f8653, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pitchPosition: {fileID: 0}
-  pitchSpeed: 5
-  curveIntensity: 0.75
-  difficulty: 0
 --- !u!96 &5635906478573049707
 TrailRenderer:
   serializedVersion: 3
