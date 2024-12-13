@@ -14,7 +14,7 @@ public class ScoreArea : MonoBehaviour
                 ballScript.HasScored = true;
                 Debug.Log("Homerun");
                 GameManager.Instance.HandlePitchOutcome(isHomeRun: true);
-                Destroy(other.gameObject, 5);
+                Destroy(other.gameObject, 3);
             }
         }
     }

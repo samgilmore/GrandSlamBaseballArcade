@@ -1,10 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+using System.Collections;
+using Oculus.Interaction;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    public AudioSource robotSoundSource;
+    public AudioSource cheerSource;
+    public AudioClip cheerClip;
+    public AudioClip startClip;
 
     [Header("Game Settings")]
     public int pitchesPerGame = 10;
@@ -18,6 +26,7 @@ public class GameManager : MonoBehaviour
     public GameObject resetMenu;
     public TextMeshProUGUI finalScoreText;
     public TextMeshProUGUI finalHomeRunsText;
+    public Button playAgainButton;
 
     [Header("Menus")]
     public GameObject startMenu;
@@ -65,6 +74,16 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         InitializeStartMenu();
+
+        if (playAgainButton != null)
+        {
+            playAgainButton.onClick.AddListener(ResetGame);
+        }
+    }
+
+    private void ResetGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void InitializeStartMenu()
@@ -94,6 +113,9 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
+        robotSoundSource.clip = startClip;
+        robotSoundSource.Play();
+
         currentScore = 0;
         homeRuns = 0;
         consecutiveHomeRuns = 0;
@@ -125,18 +147,31 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameActive || pitchesRemaining <= 0) return;
 
-        pitchesRemaining--;
-
         if (isHomeRun)
         {
+            cheerSource.clip = cheerClip;
+            cheerSource.Play();
+
             homeRuns++;
             consecutiveHomeRuns++;
+            Debug.Log(consecutiveHomeRuns);
             int multiplier = (consecutiveHomeRuns >= homeRunMultiplierThreshold) ? consecutiveHomeRuns : 1;
             currentScore += 10 * multiplier;
+
+            // Notify BallManager to add fire effect if the multiplier threshold is reached
+            if (consecutiveHomeRuns >= homeRunMultiplierThreshold)
+            {
+                ballManager.EnableFireEffect(true); // Pass true to enable fire effect
+            }
         }
         else
         {
+            pitchesRemaining--;
             consecutiveHomeRuns = 0;
+            Debug.Log(consecutiveHomeRuns);
+
+            // Disable fire effect after a non-home run
+            ballManager.EnableFireEffect(false); // Pass false to disable fire effect
         }
 
         UpdateScoreboard();
@@ -167,11 +202,11 @@ public class GameManager : MonoBehaviour
         switch (difficulty.ToLower())
         {
             case "easy":
-                pitchesPerGame = 3;
+                pitchesPerGame = 10;
                 selectedDifficultyButton = easyButton;
                 break;
             case "medium":
-                pitchesPerGame = 5;
+                pitchesPerGame = 10;
                 selectedDifficultyButton = mediumButton;
                 break;
             case "hard":

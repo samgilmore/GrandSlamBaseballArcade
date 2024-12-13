@@ -8,6 +8,12 @@ public class BallPitch : MonoBehaviour
     public float curveIntensity = 0.75f; // Intensity of the curve
     public int difficulty = 2;          // 0 = Easy, 1 = Medium, 2 = Hard
 
+    public AudioClip buzz;
+
+    public AudioSource ballSource;
+    public AudioClip hitClip;
+    public AudioClip pitchClip;
+
     private bool isPitching;            // Whether the ball is actively pitching
     private bool hasCollided;           // Flag to check if the ball has collided
     private Rigidbody rb;
@@ -30,6 +36,9 @@ public class BallPitch : MonoBehaviour
 
     private void StartPitch()
     {
+        ballSource.clip = pitchClip;
+        ballSource.Play();
+
         currentPitchType = SelectPitchType();
         isPitching = true;
     }
@@ -83,10 +92,22 @@ public class BallPitch : MonoBehaviour
         if (collision.gameObject.CompareTag("Bat"))
         {
             hasCollided = true; // Set collision flag to true
+            TriggerVibration(buzz);
+            ballSource.clip = hitClip;
+            ballSource.Play();
             StopPitching(); // Stop the pitching logic
             rb.useGravity = true; // Enable gravity for physics-based behavior
             rb.velocity = collision.relativeVelocity; // Add force from the bat
         }
+    }
+
+    private void TriggerVibration(AudioClip vibrationAudio)
+    {
+        OVRHapticsClip clip = new OVRHapticsClip(vibrationAudio);
+        Debug.Log(vibrationAudio);
+
+        OVRHaptics.LeftChannel.Preempt(clip);
+        OVRHaptics.RightChannel.Preempt(clip);
     }
 
     private void StopPitching()

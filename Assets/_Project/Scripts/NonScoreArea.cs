@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class NonScoreArea : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    public AudioSource ballSource;
+    public AudioClip thud;
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.CompareTag("Ball"))
+        if (other.gameObject.CompareTag("Ball"))
         {
-            Ball ballScript = other.GetComponent<Ball>();
+            ballSource.clip = thud;
+            ballSource.Play();
+
+            Ball ballScript = other.gameObject.GetComponent<Ball>();
             if (ballScript != null && !ballScript.HasScored)
             {
                 ballScript.HasScored = true;
                 Debug.Log("groundball/foul");
                 GameManager.Instance.HandlePitchOutcome(isHomeRun: false);
-                Destroy(other.gameObject, 5);
+                Destroy(other.gameObject, 3);
             }
         }
     }
