@@ -37,3 +37,10 @@
 ---
 
 ⚾️ Stay tuned for updates! ⚾️
+
+<div align="center">
+<img width="447" alt="Screenshot 2024-12-13 at 3 28 32 AM" src="https://github.com/user-attachments/assets/f2c98d6d-790f-49c3-9d2e-938ed55eaf95" />
+<img width="473" alt="Screenshot 2024-12-13 at 3 28 46 AM" src="https://github.com/user-attachments/assets/1f6b72ae-b89e-413f-82ed-c2b828e87878" />
+</div>
+
+
