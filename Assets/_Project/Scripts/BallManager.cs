@@ -11,12 +11,12 @@ public class BallManager : MonoBehaviour
 
     private bool isPitching = false;
 
-    public void StartPitching(int difficulty, int pitchesPerGame)
+    public void StartPitching(int difficulty)
     {
         if (isPitching) return;
 
         isPitching = true;
-        StartCoroutine(PitchSequence(difficulty, pitchesPerGame));
+        StartCoroutine(PitchSequence(difficulty));
     }
 
     public void StopPitching()
@@ -25,9 +25,9 @@ public class BallManager : MonoBehaviour
         StopAllCoroutines();
     }
 
-    private IEnumerator PitchSequence(int difficulty, int pitchesToThrow)
+    private IEnumerator PitchSequence(int difficulty)
     {
-        for (int i = 0; i < pitchesToThrow; i++)
+        while (GameManager.Instance.pitchesRemaining > 0)
         {
             if (!isPitching) yield break;
 
@@ -38,14 +38,10 @@ public class BallManager : MonoBehaviour
             BallPitch ballScript = ballInstance.GetComponent<BallPitch>();
             ballScript.Initialize(pitchPosition, pitchSpeed, curveIntensity, difficulty);
 
-            // Notify GameManager about the pitch
-            GameManager.Instance.HandlePitchOutcome(false);
-
             // Wait before pitching the next ball
             yield return new WaitForSeconds(pitchInterval);
         }
 
-        // Notify GameManager that pitching is done
-        GameManager.Instance.EndGame();
+        StopPitching();
     }
 }

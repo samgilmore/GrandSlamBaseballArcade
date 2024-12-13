@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     private int currentScore = 0;
     private int homeRuns = 0;
     private int consecutiveHomeRuns = 0;
-    private int pitchesRemaining;
+    public int pitchesRemaining;
     private bool isGameActive = false;
 
     private void Awake()
@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
         startMenu.SetActive(false);
 
         // Start the pitching process in BallManager
-        ballManager.StartPitching(GetDifficultyLevel(), pitchesPerGame);
+        ballManager.StartPitching(GetDifficultyLevel());
     }
 
     public void EndGame()
@@ -112,21 +112,15 @@ public class GameManager : MonoBehaviour
         ballManager.StopPitching();
 
         // Show final score and home runs
-        finalScoreText.text = currentScore.ToString();
-        finalHomeRunsText.text = homeRuns.ToString();
+        finalScoreText.text = "Final Score: " + currentScore;
+        finalHomeRunsText.text = "Home Runs: " + homeRuns;
 
         resetMenu.SetActive(true);
     }
 
-    public void RestartGame()
-    {
-        StartGame();
-        resetMenu.SetActive(false);
-    }
-
     public void HandlePitchOutcome(bool isHomeRun)
     {
-        if (!isGameActive) return;
+        if (!isGameActive || pitchesRemaining <= 0) return;
 
         pitchesRemaining--;
 
@@ -152,8 +146,8 @@ public class GameManager : MonoBehaviour
 
     private void UpdateScoreboard()
     {
-        homeRunsText.text = homeRuns.ToString();
-        pitchesRemainingText.text = pitchesRemaining.ToString();
+        homeRunsText.text = "Home Runs: " + homeRuns;
+        pitchesRemainingText.text = "Pitches Remaining: " + pitchesRemaining;
     }
 
     private int GetDifficultyLevel()
